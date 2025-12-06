@@ -1,27 +1,62 @@
-# TigerTraits-deployed
+# TigerTraits
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
+TigerTraits is a full-stack web application consisting of:
+- **Node/Express API** (`node-server`)
+- **Angular frontend**
+- **MongoDB database** (via Docker)
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Prerequisites
+Make sure you have the following installed:
+- **Node.js** (v18+ recommended)
+- **npm**
+- **Angular CLI** → `npm install -g @angular/cli`
+- **Docker** (used to run MongoDB)
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Getting Started (Local Development)
 
-## Build
+### 1. Clone the Repository
+Run the following commands:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+git clone https://github.com/Q-333/TigerTraits.git
+cd TigerTraits
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 2. Start MongoDB (Docker)
+Start the MongoDB container:
 
-## Running end-to-end tests
+docker run -d --name mongo -p 27017:27017 mongo:6
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+MongoDB will now be available at:
 
-## Further help
+mongodb://localhost:27017
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+---
+
+### 3. Start the API Server
+Navigate to the backend and start the server:
+
+cd node-server
+npm install
+npm start
+
+The API will be running at:
+
+http://localhost:3000
+
+---
+
+### 4. Start the Angular Frontend
+Return to the root folder and start the Angular app:
+
+cd ..
+npm install
+ng serve
+
+The frontend will be available at:
+
+http://localhost:4200
