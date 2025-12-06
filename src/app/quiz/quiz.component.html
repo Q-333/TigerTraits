@@ -1,0 +1,60 @@
+<!-- <p>quiz works!</p> -->
+<!-- <app-header></app-header> -->
+
+<!-- START SCREEN -->
+<div *ngIf="viewStep === 'start'" class="start-screen">
+  <div class="gif-container">
+    <img src="assets/gifs/Start.gif" alt="GIF" class="gif-image" />
+  </div>
+  <h3>It's homecoming weekend at Mizzou and campus is filled with spirit! The decisions you make today will reveal your tiger trait.</h3>
+  <h3>Ready to start your day?</h3>
+  <button class="button" (click)="viewStep = 'quiz'">Let's go!</button>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div *ngIf="viewStep === 'quiz'" class="quiz-screen">
+  <h2>Question {{ currentQuestion + 1 }} / {{ questions.length }}</h2>
+
+  <!-- GIF -->
+  <div class="gif-container">
+    <img [src]="questions[currentQuestion].gif" alt="GIF" class="gif-image" />
+  </div>
+
+  <p class="question-text">{{ questions[currentQuestion].text }}</p>
+
+  <div *ngFor="let option of questions[currentQuestion].options">
+    <!-- handleSelection just takes in the optionText selected, returns mapped letter to ans obj-->
+    <!--updated ngStyle call to isSelected to questions[current].'ID' to display selected ans to user-->
+    <button (click)="handleSelect(option)"
+
+            class="option-button">
+      <span>{{ option }}</span>
+    </button>
+  </div>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div *ngIf="viewStep === 'complete'" class="completion-screen">
+  <div class="gif-container">
+    <img src="assets/gifs/End.gif" alt="GIF" class="gif-image" />
+  </div>
+  <h3>All done! Ready to see your results?</h3>
+  <button class="button" (click)="viewStep = 'result'">Show Results</button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div *ngIf="viewStep === 'result'" class="results-screen">
+  <app-info-card
+    [personaName]="resultData.name"
+    [traits]="resultData.traits"
+    [leftTags]="resultData.leftTags"
+    [rightTags]="resultData.rightTags"
+    [imageUrl]="resultData.image"
+    [resources]="resultData.resources"
+    [compatibilities]="resultData.compatibilities"
+    [cardColor]="resultData.cardColor"
+    [tagColor]="resultData.tagColor"
+  ></app-info-card>
+  <!-- restart quiz button, initalize all the quiz comp vars back to their OG state-->
+  <button class="quiz-button" (click)="viewStep = 'start'; result = ''; resultData = null; card = null; currentQuestion = 0; answers = {};">Take the Quiz Again!</button>
+</div>

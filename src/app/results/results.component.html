@@ -1,0 +1,54 @@
+<!-- <p>results works!</p> -->
+
+<div class="results-container">
+  <!-- leftside - info card -->
+  <div class="info-card-section">
+    <ng-container *ngIf="card; else noCard" class="results-screen">
+      <app-info-card
+        [personaName]="card.name"
+        [traits]="card.traits"
+        [leftTags]="card.leftTags"
+        [rightTags]="card.rightTags"
+        [imageUrl]="card.image"
+        [resources]="card.resources"
+        [compatibilities]="card.compatibilities"
+        [cardColor]="card.cardColor"
+        [tagColor]="card.tagColor"
+      ></app-info-card>
+    </ng-container>
+    <ng-template #noCard>
+      <p>Hmmm... looks like you haven't taken our quiz yet.</p>
+      <p>Try taking the quiz first, then check back here to see your results.</p>
+    </ng-template>
+  </div>
+
+  <!-- rightside - comp list, buttons -->
+  <div class="right-section">
+    <div class="compatibility-container">
+      <h3>Explore Compatibilities</h3>
+      <div class="compatibility-list-container">
+        <ul class="compatibility-list">
+          <li class="comp-link" *ngFor="let user of compatibilities" (click)="openProfile(user.userId)">
+            {{ user.name || 'Unknown' }} ({{ user.personalityType || 'Unknown' }})
+          </li>
+        </ul>
+        <div *ngIf="compatibilities.length === 0">
+          <p>No compatible users found.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- buttons -->
+    <div class="buttons-section">
+      <button class="quiz-again-btn" (click)="startQuizAgain()">Retake Quiz</button>
+      <button class="delete-acc-btn" (click)="showConfirmDelete()">Delete Account</button>
+    </div>
+    <div *ngIf="confirmingDelete" class="confirm-delete-section">
+      <p class="delete-acc-message">Are you sure you want to delete your account?</p>
+      <p class="delete-acc-message">This action cannot be undone.</p>
+      <button class="delete-confirm-btn" (click)="confirmAccountDelete()">Yes, delete my account.</button>
+      <button class="delete-cancel-btn" (click)="cancelDelete()">Cancel</button>
+    </div>
+    
+  </div>
+</div>

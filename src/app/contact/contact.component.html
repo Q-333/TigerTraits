@@ -1,0 +1,87 @@
+<!-- <p>contact works!</p> -->
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<div class="profile-container" *ngIf="!isEditing; else editForm">
+  <div class="profile-card">
+      <div class="profile-section">
+          <div class="info-box1">
+              <h3 id="profile-name">{{ contactForm.get('name')?.value || 'Name' }}</h3>
+              <img [src]="contactForm.get('imageUrl')?.value || '/assets/soba.JPG'" alt="Profile Photo" class="profile-pic">
+              <h3>About Me</h3>
+              <p class="bio">{{ contactForm.get('bio')?.value || 'Your bio goes here...' }}</p>
+          </div>
+      </div>
+      <div class="profile-section">
+        <div class="right-sections">
+          <div class="info-box3">
+            <h3>Connect with Me!</h3>
+            <div class="social-icons">
+              <a [href]="contactForm.get('instagram')?.value" class="fa fa-instagram"></a>
+              <a [href]="contactForm.get('facebook')?.value" class="fa fa-facebook"></a>
+              <a [href]="contactForm.get('linkedin')?.value" class="fa fa-linkedin"></a>
+            </div>
+          </div>
+      
+          <!-- NEW!!! -->
+          <div class="info-box4">
+            <h3>My TigerTrait</h3>
+            <ng-container *ngIf="hasPersonality !== null">
+              <!-- If personality exists -->
+              <div *ngIf="hasPersonality; else quizPrompt">
+                <img class="persona-img" id="tiger-trait-img" [src]="imagePath" [alt]="personality">
+              </div>
+          
+              <!-- Else show quiz prompt -->
+              <ng-template #quizPrompt>
+                <button class="quiz-start-button" (click)="goToQuiz()">Result is unavailable. Click here to find out!</button>
+              </ng-template>
+            </ng-container>
+          </div>
+          
+        </div>
+      </div>
+      <!-- <button class="edit-button" (click)="enableEditing()">Edit Contact Info</button> -->
+      <button *ngIf="isOwnProfile" class="edit-button" (click)="enableEditing()">Edit Contact Info</button>
+  </div>
+</div>
+
+<ng-template #editForm>
+<form [formGroup]="contactForm" (ngSubmit)="saveContactInfo()" class="edit-form">
+  <div class="form-group">
+      <label for="name">Name</label>
+      <input formControlName="name" id="name" placeholder="Name" />
+  </div>
+  <div class="form-group">
+      <label for="image">Profile Picture</label>
+      <input type="file" id="image" (change)="onImagePicked($event)" placeholder="Profile Image URL" />
+      <div *ngIf="imagePreview" [alt]="contactForm.value.title" style="max-width: 300px; margin: 10px auto;">
+          <img [src]="imagePreview" alt="Preview" style="max-width: 100%; max-height: 100%;" />
+      </div>
+  </div>
+  <div class="form-group">
+    <label for="bio">Bio</label>
+    <textarea formControlName="bio" id="bio" placeholder="Bio" maxlength="250" 
+        (input)="updateCharacterCount($event)"></textarea>
+    <small class="char-limit">{{ charCount }}/250 characters</small>
+  </div>
+  <div class="form-group">
+      <label for="instagram">Instagram</label>
+      <input formControlName="instagram" id="instagram" placeholder="Instagram URL" />
+  </div>
+  <div class="form-group">
+      <label for="facebook">Facebook</label>
+      <input formControlName="facebook" id="facebook" placeholder="Facebook URL" />
+  </div>
+  <div class="form-group">
+      <label for="linkedin">LinkedIn</label>
+      <input formControlName="linkedin" id="linkedin" placeholder="LinkedIn URL" />
+  </div>
+  <div class="edit-form-buttons">
+    <button type="submit" class="save-btn">Save Changes</button>
+    <button type="button" class="cancel-btn" (click)="cancelEditing()">Cancel</button>
+  </div>
+</form>
+</ng-template>
